@@ -35,22 +35,22 @@ path: /Notifications
 # for sample, see example below
 databaseTable: table
 from:
-	email: noreply@example.com
-	name: name
+  email: noreply@example.com
+  name: name
 # These are used to match up the json, AND for email subjects
 types:
-	ColumnName: issue
+  ColumnName: issue
 
 example:
-	path: /Notifications
-	databaseTable: subscriptions
-	from:
-		email: johnsmith@gmail.com
-		name: John Smith
-	types:
-		MagazineA: issue
-		MagazineB: article
-		ProjectA: build
+  path: /Notifications
+  databaseTable: subscriptions
+  from:
+    email: johnsmith@gmail.com
+    name: John Smith
+  types:
+    MagazineA: issue
+    MagazineB: article
+    ProjectA: build
 
 
 
