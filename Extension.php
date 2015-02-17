@@ -39,7 +39,15 @@
 
 				$subject = new \Twig_Markup($column["name"] . " has updated to " . $column["number"], 'UTF-8');
 				$body = new \Twig_Markup($column["url"], 'UTF-8');
-				
+				$emailToSend = \Swift_Message::newInstance()
+					->setSubject($subject)
+					->setBody(strip_tags($body))
+					->addPart($body, 'text/html')
+				;
+
+				foreach ($subscriptions as $sub) {
+					
+				}
 			}
 
 			return '<h1>GawainLynch said so :P</h1>';
