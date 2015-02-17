@@ -14,18 +14,15 @@
 
 			// todo configged 'Notifications'
 			// get() post() or match() (for both)
-			$this->app->match("/Notifications", array($this, 'onNotify'))->bind('onNotify');
+			$this->app->post("/Notifications", array($this, 'onNotify'))->bind('onNotify');
+
+			
+
 
 			return true;
 		}
 
 		public function onNotify(Request $request, $errors = null) {
-			echo "Start<br>";
-			
-			//$log = "Database Log:" . PHP_EOL
-			//$dir = './jenkin_logs/';
-			//$date = date("n.j.Y");
-
 			$table = 'beta';
 			$fromEmail = "the.country.gamer@gmail.com";
 			$fromName = "TheTemportlistSite";

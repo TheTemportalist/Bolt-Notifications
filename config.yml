@@ -1,0 +1,13 @@
+###
+### Notifications
+###
+
+databaseTable: beta
+# This is the path in which you can access Notifications
+# Direct data to (or visit) at "http://yourdomain.com" + path
+# i.e. http://yourdomain.com/Notifications by default
+path: /Notifications
+from:
+	email: the.country.gamer@gmail.com
+	name: The Temportaist
+
