@@ -24,23 +24,36 @@
 			$emails = $this->app['db']->fetchAll(
 				"SELECT email FROM " . $table . " GROUP BY email"
 			);
-			dump($emails);
+			//dump($emails);
 			foreach ($emails as $emailAr) {
-				dump($emailAr);
+				//dump($emailAr);
 				$email = $emailAr["email"];
-				$emailCond = "email='" . $email . "'";
+				//$emailCond = "email='" . $email . "'";
 				$emailSet = $this->app['db']->fetchAll(
 					"SELECT id FROM beta WHERE " . $emailCond
 				);
 				$largestID = 0;
 				foreach ($emailSet as $ids) {
-					dump($ids);
+					//dump($ids);
 					$id = $ids["id"];
-
+					if ($id > $largestID) {
+						if ($largestID > 0) {
+							echo "removing " . $largestID . " of " $email . "<br>";
+							if (!$this->delete(
+								$table, array(
+									'email' => $email, 'id' => $largestID
+								)
+							)) echo "Could not remove " . $largestID . "<br>";
+						}
+					}
 				}
 			}
 
 			return '<h1>GawainLynch said so :P</h1>';
+		}
+
+		private function delete($table, $conditions) {
+			return $this->app['db']->delete($table, $conditions);
 		}
 
 	}
