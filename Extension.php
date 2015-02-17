@@ -63,6 +63,7 @@
 				}
 			}
 
+			echo $log;
 			file_put_contents(
 				"~/logs/Post_".date("n.j.Y").".txt",
 				$log, FILE_APPEND
