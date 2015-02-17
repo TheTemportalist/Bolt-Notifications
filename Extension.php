@@ -62,7 +62,10 @@
 				}
 			}
 
-			file_put_contents("./logs/Post_" . date("n.j.Y") . '.txt', $log, FILE_APPEND);
+			file_put_contents(
+				$this->app['resources']->getPath("root/Post_".date("n.j.Y").".txt"),
+				$log, FILE_APPEND
+			);
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}
