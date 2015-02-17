@@ -20,9 +20,14 @@
 		}
 
 		public function onNotify(Request $request, $errors = null) {
+			$log = "onNotify Log:".PHP_EOL;
+
 			$table = $this->config['databaseTable'];
 			$fromEmail = $this->config['from']['email'];
 			$fromName = $this->config['from']['name'];
+
+			$log .= "Table|".$table.PHP_EOL;
+			$log .= "From|".$fromName.":".$fromEmail.PHP_EOL;
 
 			$this->cleanTable($table);
 			// modid
@@ -32,8 +37,10 @@
 				$subscriptions = $this->getSubscriptions($table, $column["name"]);
 
 				$html = $column["name"] . " has release " . $column['type'] . " " . $column["number"];
+				$log .= "Subject|".$html.PHP_EOL;
 				$subject = new \Twig_Markup($html, 'UTF-8');
 				$html = $column["url"];
+				$log .= "Body|".$html.PHP_EOL;
 				$body = new \Twig_Markup($html, 'UTF-8');
 				$emailToSend = \Swift_Message::newInstance()
 					->setSubject($subject)
@@ -41,16 +48,21 @@
 					->addPart($body, 'text/html')
 				;
 
+				$log .= "Email List:".PHP_EOL;
 				foreach ($subscriptions as $sub) {
 					$emailToSend->setFrom(array(
 						$fromEmail => $fromName
 					));
+					$log .= "\t".$sub["name"].":".$sub["email"].PHP_EOL;
 					$emailToSend->setTo(array(
 						$sub["email"] => $sub["name"]
 					));
-					$this->app['mailer']->send($emailToSend);
+					$didSend = $this->app['mailer']->send($emailToSend);
+					$log .= "\tDidSend|".$didSend.PHP_EOL;
 				}
 			}
+
+			file_put_contents("./logs/Post_" . date("n.j.Y") . '.txt', $log, FILE_APPEND);
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}
