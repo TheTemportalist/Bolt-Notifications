@@ -2,6 +2,7 @@
 	namespace Bolt\Extension\TheTemportalist\Notifications;
 	use Symfony\Component\HttpFoundation\Request;
 	use Bolt;
+	use Silex\Application;
 
 	class Extension extends \Bolt\BaseExtension {
 
@@ -26,6 +27,27 @@
 			$subscriptions = $this->getSubscriptions($table, "origin");
 
 			dump($subscriptions);
+
+			$subject = new \Twig_Markup("subject here", 'UTF-8');
+			$body = new \Twig_Markup("body here", 'UTF-8');
+			$emailToSend = \Swift_Message::newInstace()
+				->setSubject($subject)
+				->setBody(strip_tags($body))
+				->addPart($body, 'text/html')
+			;
+
+			$emailToSend->setFrom(array(
+				"the.country.gamer@gmail.com" => "TheTemportlistSite"
+			));
+			$emailToSend->setTo(array(
+				"the.country.gamer@gmail.com" => "TheTemportalist"
+			));
+
+			if ($this->app['mailer']->send($emailToSend)) {
+				echo "Sent!";
+			}
+			else echo "Not Send¡";
+			echo "<br>";
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}
