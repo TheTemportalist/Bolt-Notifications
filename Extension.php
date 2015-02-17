@@ -64,7 +64,7 @@
 			}
 
 			echo $log."<br>";
-			$file = $this->app['resources']->getPath('root') . "/logs/Post_".date("n.j.Y").".txt";
+			$file = $this->app['resources']->getPath('root') . "logs/Post_".date("n.j.Y").".txt";
 			echo $file."<br>";
 			file_put_contents(
 				$file,
