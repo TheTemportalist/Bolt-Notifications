@@ -33,7 +33,9 @@
 			$this->cleanTable($table);
 			// modid
 			$column = $this->getColumn();
-			
+			if (!empty($column)) {
+				
+			}
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}
