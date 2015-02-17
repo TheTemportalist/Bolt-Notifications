@@ -45,6 +45,14 @@
 							)) echo "Could not remove " . $largestID . "<br>";
 						}
 					}
+					else {
+						echo "removing " . $id . " of " . $email . "<br>";
+						if (!$this->delete(
+							$table, array(
+								'email' => $email, 'id' => $id
+							)
+						)) echo "Could not remove " . $id . "<br>";
+					}
 				}
 			}
 
