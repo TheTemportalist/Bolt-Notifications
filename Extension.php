@@ -34,6 +34,11 @@
 			// modid
 			$column = $this->getColumn();
 			if (!empty($column)) {
+				// todo find out which mod we are looking for
+				$subscriptions = $this->getSubscriptions($table, $column["name"]);
+
+				$subject = new \Twig_Markup($column["name"] . " has updated to " . $column["number"], 'UTF-8');
+				$body = new \Twig_Markup($column["url"], 'UTF-8');
 				
 			}
 
