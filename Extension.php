@@ -48,12 +48,13 @@
 					->setBody(strip_tags($body))
 					->addPart($body, 'text/html')
 				;
+				$log .= "From|".$fromName.":".$fromEmail.PHP_EOL;
+				$emailToSend->setFrom(array(
+					$fromEmail => $fromName
+				));
 
 				$log .= "Email List:".PHP_EOL;
 				foreach ($subscriptions as $sub) {
-					$emailToSend->setFrom(array(
-						$fromEmail => $fromName
-					));
 					$log .= "\t".$sub["name"].":".$sub["email"].PHP_EOL;
 					$emailToSend->setTo(array(
 						$sub["email"] => $sub["name"]
