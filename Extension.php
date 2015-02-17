@@ -15,7 +15,7 @@
 			// todo configged 'Notifications'
 			// get() post() or match() (for both)
 			// $this->config['path']
-			$this->app->match($this->config['path'], array($this, 'onNotify'))->bind('onNotify');
+			$this->app->match("/Notifications", array($this, 'onNotify'))->bind('onNotify');
 
 			
 		}
