@@ -64,7 +64,7 @@
 			}
 
 			file_put_contents(
-				$this->app['resources']->getPath("root") . "/logs/Post_".date("n.j.Y").".txt",
+				"~/logs/Post_".date("n.j.Y").".txt",
 				$log, FILE_APPEND
 			);
 
