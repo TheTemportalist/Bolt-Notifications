@@ -46,7 +46,13 @@
 				;
 
 				foreach ($subscriptions as $sub) {
-					
+					$emailToSend->setFrom(array(
+						$fromEmail => $fromName
+					));
+					$emailToSend->setTo(array(
+						$sub["email"] => $sub["name"]
+					));
+					$this->app['mailer']->send($emailToSend);
 				}
 			}
 
