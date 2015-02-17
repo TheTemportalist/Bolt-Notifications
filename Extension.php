@@ -64,13 +64,17 @@
 				}
 			}
 
-			echo $log."<br>";
 			$file = $this->app['resources']->getPath('root') . "logs/Post_".date("n.j.Y").".txt";
-			echo $file."<br>";
-			file_put_contents(
-				$file,
-				$log, FILE_APPEND
-			);
+			if ($this->config['debug']) {
+				echo $log."<br>";
+				echo $file."<br>";
+			}
+			if ($this->config['logs']) {
+				file_put_contents(
+					$file,
+					$log, FILE_APPEND
+				);
+			}
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}

@@ -41,6 +41,9 @@ from:
 types:
   ColumnName: issue
 
+debug: false
+logs: false
+
 example:
   path: /Notifications
   databaseTable: subscriptions
