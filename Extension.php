@@ -44,6 +44,7 @@
 								)
 							)) echo "Could not remove " . $largestID . "<br>";
 						}
+						$largestID = $id;
 					}
 					else {
 						echo "removing " . $id . " of " . $email . "<br>";
