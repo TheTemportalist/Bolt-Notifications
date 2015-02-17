@@ -21,11 +21,12 @@
 		public function onNotify(Request $request, $errors = null) {
 			echo "Start<br>";
 			$table = 'beta';
-			$emails = $this->app['db']->fetchAssoc(
+			$emails = $this->app['db']->fetchAll(
 				'SELECT email FROM ' . $table . ' GROUP BY email'
 			);
-			var_dump($emails);
+			dump($emails);
 
+			return '<h1>GawainLynch said so :P</h1>';
 		}
 
 	}
