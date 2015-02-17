@@ -35,6 +35,7 @@
 				foreach ($emailSet as $ids) {
 					//dump($ids);
 					$id = $ids["id"];
+					echo $largestID . ":" . $id . ":" . ($id > $largestID);
 					if ($id > $largestID) {
 						if ($largestID > 0) {
 							echo "removing " . $largestID . " of " . $email . "<br>";
