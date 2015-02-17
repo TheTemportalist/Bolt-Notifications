@@ -10,7 +10,7 @@
 			return "notifications";
 		}
 
-		public function initialize(){
+		public function initialize() {
 
 			// todo configged 'Notifications'
 			// get() post() or match() (for both)
@@ -33,28 +33,7 @@
 			$this->cleanTable($table);
 			// modid
 			$column = $this->getColumn();
-			if (!empty($column)) {
-				// todo find out which mod we are looking for
-				$subscriptions = $this->getSubscriptions($table, $column["name"]);
-
-				$subject = new \Twig_Markup($column["name"] . " has updated to " . $column["number"], 'UTF-8');
-				$body = new \Twig_Markup($column["url"], 'UTF-8');
-				$emailToSend = \Swift_Message::newInstance()
-					->setSubject($subject)
-					->setBody(strip_tags($body))
-					->addPart($body, 'text/html')
-				;
-
-				foreach ($subscriptions as $sub) {
-					$emailToSend->setFrom(array(
-						$fromEmail => $fromName
-					));
-					$emailToSend->setTo(array(
-						$sub["email"] => $sub["name"]
-					));
-					$this->app['mailer']->send($emailToSend)
-				}
-			}
+			
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}
