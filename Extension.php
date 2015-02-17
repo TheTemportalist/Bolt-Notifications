@@ -21,22 +21,48 @@
 		public function onNotify(Request $request, $errors = null) {
 			echo "Start<br>";
 			$table = 'beta';
+			$this->cleanTable($table);
+
+			$mods = array(
+				"origin" => "Origin",
+                "compression" => "Compression",
+                "weepingangels" => "Weeping Angels",
+                "tardis" => "Tardis"
+			);
+			$modsStr = "";
+			foreach ($mods as $modid => $modname) {
+				if ($modsStr !== "") {
+					$modsStr = $modsStr . ", ";
+				}
+				$modsStr = $modsStr . $modid;
+			}
+			$subscriptions = $this->app['db']->fetchAll(
+				"SELECT id, email, " . $modsStr . " FROM " . $table . " GROUP BY email"
+			);
+			foreach ($subscriptions as $subscription) {
+				dump($subscription);
+			}
+
+			return '<h1>GawainLynch said so :P</h1>';
+		}
+
+		private function cleanTable($table) {
 			$emails = $this->app['db']->fetchAll(
 				"SELECT email FROM " . $table . " GROUP BY email"
 			);
 			//dump($emails);
 			foreach ($emails as $emailAr) {
-				dump($emailAr);
+				//dump($emailAr);
 				$email = $emailAr["email"];
 				$emailSet = $this->app['db']->fetchAll(
 					"SELECT id FROM " . $table . " WHERE email='" . $email . "'"
 				);
-				dump($emailSet);
+				//dump($emailSet);
 				$largestID = 0;
 				foreach ($emailSet as $ids) {
 					//dump($ids);
 					$id = $ids["id"];
-					echo $largestID . ":" . $id . ":" . ($id > $largestID);
+					//echo $largestID . ":" . $id . ":" . ($id > $largestID);
 					if ($id > $largestID) {
 						if ($largestID > 0) {
 							echo "removing " . $largestID . " of " . $email . "<br>";
@@ -58,8 +84,6 @@
 					}
 				}
 			}
-
-			return '<h1>GawainLynch said so :P</h1>';
 		}
 
 		private function delete($table, $conditions) {
