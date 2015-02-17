@@ -20,8 +20,9 @@
 
 		public function onNotify(Request $request, $errors = null) {
 			echo "Start<br>";
-			$emails = $this->$app['db']->fetchAssoc(
-				'SELECT email FROM beta GROUP BY email'
+			$table = 'beta';
+			$emails = $this->app['db']->fetchAssoc(
+				'SELECT email FROM ' . $table . ' GROUP BY email'
 			);
 			var_dump($emails);
 
