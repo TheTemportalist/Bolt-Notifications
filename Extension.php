@@ -22,9 +22,23 @@
 			echo "Start<br>";
 			$table = 'beta';
 			$emails = $this->app['db']->fetchAll(
-				'SELECT email FROM ' . $table . ' GROUP BY email'
+				"SELECT email FROM " . $table . " GROUP BY email"
 			);
 			dump($emails);
+			foreach ($emails as $emailAr) {
+				dump($emailAr);
+				$email = $emailAr["email"];
+				$emailCond = "email='" . $email . "'";
+				$emailSet = $this->app['db']->fetchAll(
+					"SELECT id FROM beta WHERE " . $emailCond
+				);
+				$largestID = 0;
+				foreach ($emailSet as $ids) {
+					dump($ids);
+					$id = $ids["id"];
+
+				}
+			}
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}
