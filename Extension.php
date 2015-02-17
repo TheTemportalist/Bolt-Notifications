@@ -93,10 +93,10 @@
 				"SELECT email, " . $modsStr . " FROM " . $table . " GROUP BY email"
 			);
 			foreach ($subscriptions as $subscription) {
-				dump($subscription);
-				echo $subscription[$column];
+				//dump($subscription);
+				//echo $subscription[$column];
 				if ($subscription[$column] > 0)
-					$sub[] = $subscription['email'];
+					$subs[] = $subscription['email'];
 			}
 			return $subs;
 		}
