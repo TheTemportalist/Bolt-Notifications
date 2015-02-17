@@ -1,6 +1,6 @@
 <?php
 	
-	use Bolt\Extension\Bolt\TheTemportalist\Extension;
+	use Bolt\Extension\TheTemportalist\Extension;
 
 	$app['extensions']->register(new Extension($app));
 
