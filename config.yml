@@ -2,12 +2,45 @@
 ### Notifications
 ###
 
-databaseTable: beta
+# In order to properly use this, you will need to POST data, in JSON format to this plugin
+# For the url to post to, see 'path: ' below
+# If using PHP to post,
+# use: http://php.net/manual/en/function.stream-context-create.php
+# Stackoverlow answer: http://stackoverflow.com/questions/5647461/how-do-i-send-a-post-request-with-php
+
+# This extension works well with BoltForms
+# You can have people sign up using the BoltForms, submit that data to the table specified here,
+# And when you publish something new, send a post here with the format:
+# {"name": "Name", "url": "URL", "type": {"number": 0}}
+# i.e. For magazines:
+# {"name": "The SomthingOrOther", "url": "http://google.com", "issue": {"number": 42}}
+
 # This is the path in which you can access Notifications
 # Direct data to (or visit) at "http://yourdomain.com" + path
 # i.e. http://yourdomain.com/Notifications by default
 path: /Notifications
+# The table in your database that will be used to fetch subscription data
+# MUST have:
+#	id (primary key, auto-increment)
+#	name (varchar)
+#	email (varchar)
+#	columns (each a boolean/tinyint(1))
+# for sample, see example below
+databaseTable: beta
 from:
 	email: the.country.gamer@gmail.com
 	name: The Temportaist
+# used to specify the subject.
+type: build
+columns: [Origin, Compression, WeepingAngles, Tardis]
+
+example:
+	path: /Notifications
+	databaseTable: subscriptions
+	from:
+		email: johnsmith@gmail.com
+		name: John Smith
+	type: issue
+	columns: [MagazineA, MagazineB, MagazineC]
+
 

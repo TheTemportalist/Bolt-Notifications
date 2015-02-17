@@ -14,18 +14,15 @@
 
 			// todo configged 'Notifications'
 			// get() post() or match() (for both)
-			$this->app->post("/Notifications", array($this, 'onNotify'))->bind('onNotify');
-
-			
-
+			$this->app->post($this->app['config']['path'], array($this, 'onNotify'))->bind('onNotify');
 
 			return true;
 		}
 
 		public function onNotify(Request $request, $errors = null) {
-			$table = 'beta';
-			$fromEmail = "the.country.gamer@gmail.com";
-			$fromName = "TheTemportlistSite";
+			$table = $this->app['config']['databaseTable'];
+			$fromEmail = $this->app['config']['from']['email'];
+			$fromName = $this->app['config']['from']['name'];
 
 			$this->cleanTable($table);
 			// modid
