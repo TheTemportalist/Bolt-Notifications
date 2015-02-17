@@ -28,9 +28,8 @@
 			foreach ($emails as $emailAr) {
 				//dump($emailAr);
 				$email = $emailAr["email"];
-				//$emailCond = "email='" . $email . "'";
 				$emailSet = $this->app['db']->fetchAll(
-					"SELECT id FROM beta WHERE " . $emailCond
+					"SELECT id FROM beta WHERE email='" . $emailCond . "'"
 				);
 				$largestID = 0;
 				foreach ($emailSet as $ids) {
