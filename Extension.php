@@ -1,5 +1,6 @@
 <?php
 	namespace Bolt\Extension\TheTemportalist\Notifications;
+	use Symfony\Component\HttpFoundation\Request;
 	use Bolt;
 
 	class Extension extends \Bolt\BaseExtension {
