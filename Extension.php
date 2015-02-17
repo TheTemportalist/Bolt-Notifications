@@ -30,7 +30,7 @@
 
 			$subject = new \Twig_Markup("subject here", 'UTF-8');
 			$body = new \Twig_Markup("body here", 'UTF-8');
-			$emailToSend = \Swift_Message::newInstace()
+			$emailToSend = \Swift_Message::newInstance()
 				->setSubject($subject)
 				->setBody(strip_tags($body))
 				->addPart($body, 'text/html')
