@@ -38,7 +38,7 @@
 					$id = $ids["id"];
 					if ($id > $largestID) {
 						if ($largestID > 0) {
-							echo "removing " . $largestID . " of " $email . "<br>";
+							echo "removing " . $largestID . " of " . $email . "<br>";
 							if (!$this->delete(
 								$table, array(
 									'email' => $email, 'id' => $largestID
