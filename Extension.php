@@ -26,11 +26,12 @@
 			);
 			//dump($emails);
 			foreach ($emails as $emailAr) {
-				//dump($emailAr);
+				dump($emailAr);
 				$email = $emailAr["email"];
 				$emailSet = $this->app['db']->fetchAll(
 					"SELECT id FROM beta WHERE email='" . $emailCond . "'"
 				);
+				dump($emailSet);
 				$largestID = 0;
 				foreach ($emailSet as $ids) {
 					//dump($ids);
