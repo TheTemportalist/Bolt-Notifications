@@ -22,26 +22,10 @@
 			echo "Start<br>";
 			$table = 'beta';
 			$this->cleanTable($table);
+			// todo find out which mod we are looking for
+			$subscriptions = $this->getSubscriptions($table, "origin");
 
-			$mods = array(
-				"origin" => "Origin",
-                "compression" => "Compression",
-                "weepingangels" => "Weeping Angels",
-                "tardis" => "Tardis"
-			);
-			$modsStr = "";
-			foreach ($mods as $modid => $modname) {
-				if ($modsStr !== "") {
-					$modsStr = $modsStr . ", ";
-				}
-				$modsStr = $modsStr . $modid;
-			}
-			$subscriptions = $this->app['db']->fetchAll(
-				"SELECT id, email, " . $modsStr . " FROM " . $table . " GROUP BY email"
-			);
-			foreach ($subscriptions as $subscription) {
-				dump($subscription);
-			}
+			dump($subscriptions);
 
 			return '<h1>GawainLynch said so :P</h1>';
 		}
@@ -88,6 +72,32 @@
 
 		private function delete($table, $conditions) {
 			return $this->app['db']->delete($table, $conditions);
+		}
+
+		private function getSubscriptions($table, $column) {
+			$subs = array();
+			$mods = array(
+				"origin" => "Origin",
+                "compression" => "Compression",
+                "weepingangels" => "Weeping Angels",
+                "tardis" => "Tardis"
+			);
+			$modsStr = "";
+			foreach ($mods as $modid => $modname) {
+				if ($modsStr !== "") {
+					$modsStr = $modsStr . ", ";
+				}
+				$modsStr = $modsStr . $modid;
+			}
+			$subscriptions = $this->app['db']->fetchAll(
+				"SELECT email, " . $modsStr . " FROM " . $table . " GROUP BY email"
+			);
+			foreach ($subscriptions as $subscription) {
+				//dump($subscription);
+				if ($subscription[$column] > 0)
+					$sub[] = $subscription['email'];
+			}
+			return $subs;
 		}
 
 	}
