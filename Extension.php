@@ -29,7 +29,7 @@
 				dump($emailAr);
 				$email = $emailAr["email"];
 				$emailSet = $this->app['db']->fetchAll(
-					"SELECT id FROM beta WHERE email='" . $emailCond . "'"
+					"SELECT id FROM " . $table . " WHERE email='" . $email . "'"
 				);
 				dump($emailSet);
 				$largestID = 0;
