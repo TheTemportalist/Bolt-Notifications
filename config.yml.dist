@@ -1,2 +1,56 @@
+###
+### Notifications
+###
+
+# In order to properly use this, you will need to POST data, in JSON format to this plugin
+# For the url to post to, see 'path: ' below
+# If using PHP to post,
+# use: http://php.net/manual/en/function.stream-context-create.php
+# Stackoverlow answer: http://stackoverflow.com/questions/5647461/how-do-i-send-a-post-request-with-php
+
+# This extension works well with BoltForms
+# You can have people sign up using the BoltForms, submit that data to the table specified here,
+# And when you publish something new, send a post here with the format:
+# {"name": "Name", "type": {"status": "SUCCESS", "url": "URL", "number": 0}}
+# "name" -> The name of the column in which to check. See databaseTable description for more.
+# type => The type specified for this name below
+# "type" -> A json object which specifies things about this post
+# "status" -> Whether it should send. Assumes SUCCESS, but can be FAILED for things like programming server builds.
+# "url" -> A url to send the subscriber to
+# "number" -> the number of this post. For magazines, issue or article perhaps. For programming servers, builds usually.
+# i.e. For magazines:
+# {"name": "The SomthingOrOther", "issue": {"url": "http://google.com", "number": 42}}
+
+# This is the path in which you can access Notifications
+# Direct data to (or visit) at "http://yourdomain.com" + path
+# i.e. http://yourdomain.com/Notifications by default
+path: /Notifications
+# The table in your database that will be used to fetch subscription data
+# MUST have:
+#	id (primary key, auto-increment)
+#	name (varchar)
+#	email (varchar)
+# Now the table needs a name column for EACH POSSIBLE SUBSCRIPTION. Thats 1 boolean coloumn for each magazine per say
+#	'name' (boolean/tinyint(1)) -> the name comes from the submitted json
+# for sample, see example below
+databaseTable: table
+from:
+	email: noreply@example.com
+	name: name
+# These are used to match up the json, AND for email subjects
+types:
+	ColumnName: issue
+
+example:
+	path: /Notifications
+	databaseTable: subscriptions
+	from:
+		email: johnsmith@gmail.com
+		name: John Smith
+	types:
+		MagazineA: issue
+		MagazineB: article
+		ProjectA: build
+
 
 

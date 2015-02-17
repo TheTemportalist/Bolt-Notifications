@@ -14,15 +14,15 @@
 
 			// todo configged 'Notifications'
 			// get() post() or match() (for both)
-			$this->app->post($this->app['config']['path'], array($this, 'onNotify'))->bind('onNotify');
+			$this->app->post($this->config['path'], array($this, 'onNotify'))->bind('onNotify');
 
 			return true;
 		}
 
 		public function onNotify(Request $request, $errors = null) {
-			$table = $this->app['config']['databaseTable'];
-			$fromEmail = $this->app['config']['from']['email'];
-			$fromName = $this->app['config']['from']['name'];
+			$table = $this->config['databaseTable'];
+			$fromEmail = $this->config['from']['email'];
+			$fromName = $this->config['from']['name'];
 
 			$this->cleanTable($table);
 			// modid
@@ -31,8 +31,10 @@
 				// todo find out which mod we are looking for
 				$subscriptions = $this->getSubscriptions($table, $column["name"]);
 
-				$subject = new \Twig_Markup($column["name"] . " has updated to " . $column["number"], 'UTF-8');
-				$body = new \Twig_Markup($column["url"], 'UTF-8');
+				$html = $column["name"] . " has release " . $column['type'] . " " . $column["number"];
+				$subject = new \Twig_Markup($html, 'UTF-8');
+				$html = $column["url"];
+				$body = new \Twig_Markup($html, 'UTF-8');
 				$emailToSend = \Swift_Message::newInstance()
 					->setSubject($subject)
 					->setBody(strip_tags($body))
@@ -58,10 +60,14 @@
 			$data = file_get_contents('php://input');
 			if (strlen($data) > 0) {
 				$json = json_decode($data, true);
-				if ($json['build']['status'] === 'SUCCESS') {
-					$column["name"] = $json['name'];
-					$column["url"] = $json['build']['full_url'];
-					$column["number"] = $json['build']['number'];
+				$name = $json['name'];
+				$type = $this->config['types'][$name];
+				$status = $json[$type]['status'];
+				if (empty($status) || $status === 'SUCCESS') {
+					$column["name"] = $name;
+					$column["type"] = $type;
+					$column["url"] = $json[$type]['full_url'];
+					$column["number"] = $json[$type]['number'];
 				}
 			}
 			return $column;
