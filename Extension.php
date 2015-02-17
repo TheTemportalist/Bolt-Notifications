@@ -15,7 +15,7 @@
 			// todo configged 'Notifications'
 			// get() post() or match() (for both)
 			// $this->config['path']
-			$this->app->match("/Notifications, array($this, 'onNotify'))->bind('onNotify');
+			$this->app->match("/Notifications", array($this, 'onNotify'))->bind('onNotify');
 
 			return true;
 		}
@@ -64,7 +64,7 @@
 			}
 
 			file_put_contents(
-				$this->app['resources']->getPath("root/logs/Post_".date("n.j.Y").".txt"),
+				$this->app['resources']->getPath("root") . "/logs/Post_".date("n.j.Y").".txt",
 				$log, FILE_APPEND
 			);
 
