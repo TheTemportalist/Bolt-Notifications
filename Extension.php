@@ -21,35 +21,56 @@
 
 		public function onNotify(Request $request, $errors = null) {
 			echo "Start<br>";
+			
+			//$log = "Database Log:" . PHP_EOL
+			//$dir = './jenkin_logs/';
+			//$date = date("n.j.Y");
+
 			$table = 'beta';
+			$fromEmail = "the.country.gamer@gmail.com";
+			$fromName = "TheTemportlistSite";
+
 			$this->cleanTable($table);
-			// todo find out which mod we are looking for
-			$subscriptions = $this->getSubscriptions($table, "origin");
+			// modid
+			$column = $this->getColumn();
+			if (!empty($column)) {
+				// todo find out which mod we are looking for
+				$subscriptions = $this->getSubscriptions($table, $column["name"]);
 
-			dump($subscriptions);
+				$subject = new \Twig_Markup($column["name"] . " has updated to " . $column["number"], 'UTF-8');
+				$body = new \Twig_Markup($column["url"], 'UTF-8');
+				$emailToSend = \Swift_Message::newInstance()
+					->setSubject($subject)
+					->setBody(strip_tags($body))
+					->addPart($body, 'text/html')
+				;
 
-			$subject = new \Twig_Markup("subject here", 'UTF-8');
-			$body = new \Twig_Markup("body here", 'UTF-8');
-			$emailToSend = \Swift_Message::newInstance()
-				->setSubject($subject)
-				->setBody(strip_tags($body))
-				->addPart($body, 'text/html')
-			;
-
-			$emailToSend->setFrom(array(
-				"the.country.gamer@gmail.com" => "TheTemportlistSite"
-			));
-			$emailToSend->setTo(array(
-				"the.country.gamer@gmail.com" => "TheTemportalist"
-			));
-
-			if ($this->app['mailer']->send($emailToSend)) {
-				echo "Sent!";
+				foreach ($subscriptions as $sub) {
+					$emailToSend->setFrom(array(
+						$fromEmail => $fromName
+					));
+					$emailToSend->setTo(array(
+						$sub["email"] => $sub["name"]
+					));
+					$this->app['mailer']->send($emailToSend)
+				}
 			}
-			else echo "Not Send¡";
-			echo "<br>";
 
 			return '<h1>GawainLynch said so :P</h1>';
+		}
+
+		private function getColumn() {
+			$column = array();
+			$data = file_get_contents('php://input');
+			if (strlen($data) > 0) {
+				$json = json_decode($data, true);
+				if ($json['build']['status'] === 'SUCCESS') {
+					$column["name"] = $json['name'];
+					$column["url"] = $json['build']['full_url'];
+					$column["number"] = $json['build']['number'];
+				}
+			}
+			return $column;
 		}
 
 		private function cleanTable($table) {
@@ -98,27 +119,29 @@
 
 		private function getSubscriptions($table, $column) {
 			$subs = array();
+			/*
 			$mods = array(
-				"origin" => "Origin",
-                "compression" => "Compression",
-                "weepingangels" => "Weeping Angels",
-                "tardis" => "Tardis"
+				"Origin",
+                "Compression",
+                "Weeping Angels",
+                "Tardis"
 			);
 			$modsStr = "";
-			foreach ($mods as $modid => $modname) {
+			foreach ($mods as $modname) {
 				if ($modsStr !== "") {
 					$modsStr = $modsStr . ", ";
 				}
-				$modsStr = $modsStr . $modid;
+				$modsStr = $modsStr . $modname;
 			}
+			*/
 			$subscriptions = $this->app['db']->fetchAll(
-				"SELECT email, " . $modsStr . " FROM " . $table . " GROUP BY email"
+				"SELECT name, email, " . $column . " FROM " . $table// . " GROUP BY email"
 			);
 			foreach ($subscriptions as $subscription) {
 				//dump($subscription);
 				//echo $subscription[$column];
 				if ($subscription[$column] > 0)
-					$subs[] = $subscription['email'];
+					$subs[] = array("email" => $subscription["email"], "name" => $subscription["name"]);
 			}
 			return $subs;
 		}
