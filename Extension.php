@@ -37,7 +37,7 @@
 				// todo find out which mod we are looking for
 				$subscriptions = $this->getSubscriptions($table, $column["name"]);
 
-				$html = $column["name"] . " has release " . $column['type'] . " " . $column["number"];
+				$html = $column["name"] . " has release " . $column['type'] . " #" . $column["number"];
 				$log .= "Subject|".$html.PHP_EOL;
 				$subject = new \Twig_Markup($html, 'UTF-8');
 				$html = $column["url"];
