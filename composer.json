@@ -1,0 +1,24 @@
+{
+    "name": "thetemportalist/notifications",
+    "description": "Notifications automagically sends emails to subscribed people",
+    "type": "bolt-extension",
+    "keywords": ["thetemportalist", "notifications", "temportal"],
+    "require": {
+        "bolt/bolt": ">=2.0,<3.0"
+    },
+    "authors": [
+        {
+            "name": "The Temportalist",
+            "email": "the.country.gamer@gmail.com",
+            "homepage": "http://thetemportalist.dries007.net"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "init.php"
+        ],
+        "psr-4": {
+            "Bolt\\Extension\\MyName\\MyExtension\\": "src"
+        }
+    },
+}
